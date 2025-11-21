@@ -1,0 +1,11 @@
+group_id,course_id,group_name,meeting_day,start_time,end_time,meeting_mode,max_size,location
+G001,C001,SQL Masters,Monday,13:00:00,15:00:00,In-Person,6,ECSS 2.410
+G002,C001,Index Ninjas,Wednesday,16:00:00,18:00:00,Online,5,Microsoft Teams
+G003,C002,Pointer Pros,Tuesday,14:00:00,16:00:00,Hybrid,4,ECSS 2.415
+G004,C003,Runtime Rebels,Thursday,15:30:00,17:30:00,In-Person,6,ECSS 2.201
+G005,C004,Discrete Dynamos,Friday,10:00:00,12:00:00,Online,5,Microsoft Teams
+G006,C005,Calc Crew,Monday,09:00:00,11:00:00,In-Person,4,FO 1.202
+G007,C006,Network Knights,Tuesday,18:00:00,20:00:00,Online,6,Webex
+G008,C008,UX Thinkers,Wednesday,11:00:00,13:00:00,Hybrid,5,ATC Lab
+G009,C009,Systems Squad,Thursday,18:30:00,20:30:00,In-Person,5,ECSS 4.415
+G010,C010,Biz Brainstormers,Friday,13:00:00,15:00:00,In-Person,6,JSOM 1.101

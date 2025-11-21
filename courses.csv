@@ -1,0 +1,11 @@
+course_id,subject,course_number,section,title
+C001,CS,4347,001,Database Systems
+C002,CS,2336,002,Computer Science II
+C003,CS,3345,001,Data Structures and Intro to Algorithmic Analysis
+C004,CS,2305,003,Discrete Mathematics for Computing
+C005,MATH,2413,001,Calculus I
+C006,CS,4390,001,Computer Networks
+C007,ITSS,3311,002,Introduction to Programming
+C008,CS,4352,001,Human-Computer Interaction
+C009,CS,3377,001,Systems Programming in UNIX
+C010,BUSI,1200,005,Introduction to Business

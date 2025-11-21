@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Find Study Groups • StudySync</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      background: #f5f7fb;
+      color: #333;
+    }
+
+    header {
+      background: #3b4cca;
+      color: #fff;
+      padding: 18px 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    nav a {
+      color: #fff;
+      margin-right: 18px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity .2s;
+    }
+
+    nav a:hover { opacity: 0.75; }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background:#ffffff;
+      border-radius:14px;
+      padding:22px;
+      box-shadow:0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    form label {
+      font-weight:600;
+      display:block;
+      margin-top:16px;
+    }
+
+    input, select {
+      width:100%;
+      margin-top:6px;
+      padding:10px;
+      border:1px solid #ccc;
+      border-radius:10px;
+      font-size:15px;
+    }
+
+    button {
+      margin-top:22px;
+      padding:12px 20px;
+      background:#3b4cca;
+      border:none;
+      color:#fff;
+      font-weight:600;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:15px;
+      transition:opacity .2s;
+    }
+
+    button:hover { opacity:.85; }
+
+    table {
+      width:100%;
+      margin-top:26px;
+      border-collapse:collapse;
+      background:#fff;
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    th {
+      background:#e6e9ff;
+      padding:12px;
+      font-weight:600;
+      font-size:14px;
+    }
+
+    td {
+      padding:12px;
+      border-top:1px solid #ddd;
+      text-align:center;
+      font-size:14px;
+    }
+
+    .join-btn {
+      background:#3b4cca;
+      color:#fff;
+      padding:8px 14px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>StudySync</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="create_profile.html">Create Profile</a>
+    <a href="availability.html">Availability</a>
+    <a href="add_courses.html">My Courses</a>
+    <a href="search_groups.html">Find Groups</a>
+    <a href="create_group.html">Create Group</a>
+    <a href="my_groups.html">My Groups</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Find Study Groups</h2>
+    <p>Search for groups by course, meeting day, or size. (Static mockup only.)</p>
+
+    <form>
+      <label>Course Subject</label>
+      <input type="text" placeholder="e.g., CS">
+
+      <label>Course Number</label>
+      <input type="text" placeholder="e.g., 4347">
+
+      <label>Preferred Meeting Day</label>
+      <select>
+        <option>Any</option>
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+        <option>Friday</option>
+      </select>
+
+      <label>Max Group Size</label>
+      <input type="number" placeholder="e.g., 5">
+
+      <button type="button">Search</button>
+
+      <h3 style="margin-top:30px;">Matching Groups</h3>
+
+      <table>
+        <tr>
+          <th>Group Name</th>
+          <th>Course</th>
+          <th>Day</th>
+          <th>Size</th>
+          <th>Join</th>
+        </tr>
+
+        <tr>
+          <td>Data Ninjas</td>
+          <td>CS 4347</td>
+          <td>Tuesday</td>
+          <td>4 / 6</td>
+          <td><button class="join-btn">Join</button></td>
+        </tr>
+
+      </table>
+
+    </form>
+  </section>
+</main>
+
+</body>
+</html>
