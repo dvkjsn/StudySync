@@ -6,9 +6,7 @@ DROP TABLE IF EXISTS StudyGroups;
 DROP TABLE IF EXISTS Courses;
 DROP TABLE IF EXISTS Students;
 
---------------------------------------------------------
 -- Students taking part in StudySync
---------------------------------------------------------
 CREATE TABLE Students (
   email           VARCHAR(60) PRIMARY KEY,
   password        VARCHAR(128) NOT NULL,
@@ -19,9 +17,8 @@ CREATE TABLE Students (
   preferred_mode  VARCHAR(10)   -- In-Person / Online / Hybrid
 );
 
---------------------------------------------------------
+
 -- Courses
---------------------------------------------------------
 CREATE TABLE Courses (
   course_id      VARCHAR(10)  PRIMARY KEY,
   subject        VARCHAR(10)  NOT NULL,
@@ -30,9 +27,8 @@ CREATE TABLE Courses (
   title          VARCHAR(80)
 );
 
---------------------------------------------------------
+
 -- Study groups created inside the system
---------------------------------------------------------
 CREATE TABLE StudyGroups (
   group_id      VARCHAR(10)  PRIMARY KEY,
   course_id     VARCHAR(10)  NOT NULL,
@@ -47,9 +43,8 @@ CREATE TABLE StudyGroups (
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
 
---------------------------------------------------------
+
 -- Which student is enrolled in which course
---------------------------------------------------------
 CREATE TABLE Enrollments (
   email      VARCHAR(60) NOT NULL,
   course_id  VARCHAR(10) NOT NULL,
@@ -60,9 +55,8 @@ CREATE TABLE Enrollments (
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
 
---------------------------------------------------------
+
 -- Members of each study group
---------------------------------------------------------
 CREATE TABLE GroupMembers (
   group_id   VARCHAR(10) NOT NULL,
   email      VARCHAR(60) NOT NULL,
@@ -74,9 +68,8 @@ CREATE TABLE GroupMembers (
     FOREIGN KEY (email) REFERENCES Students(email)
 );
 
---------------------------------------------------------
+
 -- Time blocks that students are available to meet
---------------------------------------------------------
 CREATE TABLE Availability (
   availability_id VARCHAR(10) PRIMARY KEY,
   email           VARCHAR(60) NOT NULL,

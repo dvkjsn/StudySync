@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudySync</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: "Poppins", sans-serif; margin: 0; background:#f5f7fb; color:#333; }
+    header { background:#3b4cca; color:white; padding:18px 20px; }
+    nav a { color:white; margin-right:18px; text-decoration:none; font-weight:500; }
+    nav a:hover { opacity:0.75; }
+    main { max-width:1000px; margin:30px auto; padding:0 20px; }
+    .card { background:white; padding:25px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-bottom:35px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
+    .mini-card { background:white; padding:20px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+    .mini-card a { color:#3b4cca; font-weight:600; text-decoration:none; }
+    .flash { background:#ffe8e8; padding:12px; border:1px solid #ffb4b4; margin:20px 0; border-radius:8px; color:#900; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>StudySync</h1>
+  <nav>
+    <a href="/profile">Profile</a>
+    <a href="/availability">Availability</a>
+    <a href="/add_courses">My Courses</a>
+    <a href="/search_groups">Find Groups</a>
+    <a href="/create_group">Create Group</a>
+    <a href="/my_groups">My Groups</a>
+    <a href="/admin">Admin</a>
+
+    {% if session.email %}
+      <a href="/logout">Logout</a>
+    {% else %}
+      <a href="/login">Login</a>
+    {% endif %}
+  </nav>
+</header>
+
+<main>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash">
+        {% for msg in messages %}
+          <p>{{ msg }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <section class="card">
+    <h2>Welcome</h2>
+    {% if session.email %}
+      <p>You are logged in as <strong>{{ session.email }}</strong>.</p>
+    {% else %}
+      <p>Please <a href="/login">log in</a> to get started.</p>
+    {% endif %}
+  </section>
+
+  <section>
+    <h2>Quick Actions</h2>
+    <div class="grid">
+      <div class="mini-card">
+        <h3>View your profile</h3>
+        <p>Basic info, major, year, preferences.</p>
+        <a href="/profile">Open</a>
+      </div>
+
+      <div class="mini-card">
+        <h3>Set availability</h3>
+        <p>Days/times you can meet.</p>
+        <a href="/availability">Open</a>
+      </div>
+
+      <div class="mini-card">
+        <h3>Add courses</h3>
+        <p>Select subjects/sections you're taking.</p>
+        <a href="/add_courses">Open</a>
+      </div>
+
+      <div class="mini-card">
+        <h3>Find groups</h3>
+        <p>Search by course, time, or size.</p>
+        <a href="/search_groups">Open</a>
+      </div>
+
+      <div class="mini-card">
+        <h3>Create group</h3>
+        <p>Name, course, capacity, meeting mode.</p>
+        <a href="/create_group">Open</a>
+      </div>
+
+      <div class="mini-card">
+        <h3>My groups</h3>
+        <p>View/join/leave groups, see members.</p>
+        <a href="/my_groups">Open</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

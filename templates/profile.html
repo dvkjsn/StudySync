@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Create Profile • StudySync</title>
+  <title>Profile • StudySync</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
@@ -82,50 +82,54 @@
 <header>
   <h1>StudySync</h1>
   <nav>
-    <a href="index.html">Home</a>
-    <a href="create_profile.html">Create Profile</a>
-    <a href="availability.html">Availability</a>
-    <a href="add_courses.html">My Courses</a>
-    <a href="search_groups.html">Find Groups</a>
-    <a href="create_group.html">Create Group</a>
-    <a href="my_groups.html">My Groups</a>
-    <a href="admin.html">Admin</a>
+    <a href="/">Home</a>
+    <a href="/profile">Profile</a
+    ><a href="/availability">Availability</a>
+    <a href="/add_courses">My Courses</a>
+    <a href="/search_groups">Find Groups</a>
+    <a href="/create_group">Create Group</a>
+    <a href="/my_groups">My Groups</a>
+    <a href="/admin">Admin</a>
   </nav>
 </header>
 
 <main>
   <section class="card">
-    <h2>Create Profile</h2>
+    <h2>Your Profile</h2>
 
-    <form>
+    {% if student %}
+    <form action="/profile" method="POST">
+      
       <label>Full Name</label>
-      <input type="text" placeholder="Enter your name">
+      <input type="text" name="full_name"
+             value="{{ student.first_name or '' }} {{ student.last_name or '' }}"
+             placeholder="Enter your name">
 
-      <label>Email</label>
-      <input type="email" placeholder="yourname@utdallas.edu">
-
-        
       <label>Major</label>
-      <input type="text" placeholder="e.g., Computer Science">
+      <input type="text" name="major"
+             value="{{ student.major or '' }}"
+             placeholder="e.g., Computer Science">
 
       <label>Academic Year</label>
-      <select>
-        <option>Freshman</option>
-        <option>Sophomore</option>
-        <option>Junior</option>
-        <option>Senior</option>
-        <option>Graduate</option>
+      <select name="year">
+        <option {% if student.class_year == 'Freshman' %}selected{% endif %}>Freshman</option>
+        <option {% if student.class_year == 'Sophomore' %}selected{% endif %}>Sophomore</option>
+        <option {% if student.class_year == 'Junior' %}selected{% endif %}>Junior</option>
+        <option {% if student.class_year == 'Senior' %}selected{% endif %}>Senior</option>
+        <option {% if student.class_year == 'Graduate' %}selected{% endif %}>Graduate</option>
       </select>
 
       <label>Preferred Study Mode</label>
-      <select>
-        <option>In-Person</option>
-        <option>Online</option>
-        <option>Hybrid</option>
+      <select name="preferred_mode">
+        <option {% if student.preferred_mode == 'In-Person' %}selected{% endif %}>In-Person</option>
+        <option {% if student.preferred_mode == 'Online' %}selected{% endif %}>Online</option>
+        <option {% if student.preferred_mode == 'Hybrid' %}selected{% endif %}>Hybrid</option>
       </select>
 
-      <button type="button">Save Profile</button>
+      <button type="submit">Save Changes</button>
+
     </form>
+    {% endif %}
   </section>
 </main>
 
