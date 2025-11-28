@@ -1,21 +1,21 @@
-student_id,netid,first_name,last_name,email,major,class_year,preferred_mode
-S001,fxs230038,Fatimah,Siddiqui,fxs230038@utdallas.edu,Computer Science,Sophomore,Hybrid
-S002,msc220005,Megan,Chacko,msc220005@utdallas.edu,Information Technology,Junior,Online
-S003,lyc220000,Lydia,Chen,lyc220000@utdallas.edu,Data Science,Junior,In-Person
-S004,hrs220004,Hishita,Shah,hrs220004@utdallas.edu,Software Engineering,Sophomore,Hybrid
-S005,sxs220485,Srinidhi,Sivakaminathan,sxs220485@utdallas.edu,Computer Science,Sophomore,Online
-S006,ixz220004,Ifrah,Zainab,ixz220004@utdallas.edu,Computer Engineering,Senior,In-Person
-S007,axp230101,Arjun,Patel,axp230101@utdallas.edu,Computer Science,Freshman,In-Person
-S008,exn230214,Emily,Nguyen,exn230214@utdallas.edu,Business Analytics,Sophomore,Hybrid
-S009,dxr230333,Daniel,Rodriguez,dxr230333@utdallas.edu,Computer Science,Junior,Online
-S010,ssk230456,Sophia,Kim,ssk230456@utdallas.edu,Data Science,Freshman,Hybrid
-S011,mxj230512,Michael,Johnson,mxj230512@utdallas.edu,Mathematics,Senior,In-Person
-S012,rxd230678,Riya,Desai,rxd230678@utdallas.edu,Computer Science,Sophomore,Hybrid
-S013,jxl230742,Jason,Lee,jxl230742@utdallas.edu,Software Engineering,Junior,Online
-S014,oxg230811,Olivia,Garcia,oxg230811@utdallas.edu,Computer Science,Freshman,In-Person
-S015,exb230945,Ethan,Brown,exb230945@utdallas.edu,Finance,Senior,Online
-S016,nxw231002,Noah,Wilson,nxw231002@utdallas.edu,Computer Science,Sophomore,Hybrid
-S017,axk231045,Aisha,Khan,axk231045@utdallas.edu,Data Science,Junior,Online
-S018,gxm231123,Grace,Miller,gxm231123@utdallas.edu,Computer Engineering,Freshman,Hybrid
-S019,wxk231210,Kevin,Wu,wxk231210@utdallas.edu,Computer Science,Sophomore,In-Person
-S020,ixl231309,Isabella,Lopez,ixl231309@utdallas.edu,Information Technology,Junior,Hybrid
+email,password,first_name,last_name,major,class_year,preferred_mode
+fxs230038@utdallas.edu,fxs230038,Fatimah,Siddiqui,Computer Science,Sophomore,Hybrid
+msc220005@utdallas.edu,msc220005,Megan,Chacko,Information Technology,Junior,Online
+lyc220000@utdallas.edu,lyc220000,Lydia,Chen,Data Science,Junior,In-Person
+hrs220004@utdallas.edu,hrs220004,Hishita,Shah,Software Engineering,Sophomore,Hybrid
+sxs220485@utdallas.edu,sxs220485,Srinidhi,Sivakaminathan,Computer Science,Sophomore,Online
+ixz220004@utdallas.edu,ixz220004,Ifrah,Zainab,Computer Engineering,Senior,In-Person
+axp230101@utdallas.edu,axp230101,Arjun,Patel,Computer Science,Freshman,In-Person
+exn230214@utdallas.edu,exn230214,Emily,Nguyen,Business Analytics,Sophomore,Hybrid
+dxr230333@utdallas.edu,dxr230333,Daniel,Rodriguez,Computer Science,Junior,Online
+ssk230456@utdallas.edu,ssk230456,Sophia,Kim,Data Science,Freshman,Hybrid
+mxj230512@utdallas.edu,mxj230512,Michael,Johnson,Mathematics,Senior,In-Person
+rxd230678@utdallas.edu,rxd230678,Riya,Desai,Computer Science,Sophomore,Hybrid
+jxl230742@utdallas.edu,jxl230742,Jason,Lee,Software Engineering,Junior,Online
+oxg230811@utdallas.edu,oxg230811,Olivia,Garcia,Computer Science,Freshman,In-Person
+exb230945@utdallas.edu,exb230945,Ethan,Brown,Finance,Senior,Online
+nxw231002@utdallas.edu,nxw231002,Noah,Wilson,Computer Science,Sophomore,Hybrid
+axk231045@utdallas.edu,axk231045,Aisha,Khan,Data Science,Junior,Online
+gxm231123@utdallas.edu,gxm231123,Grace,Miller,Computer Engineering,Freshman,Hybrid
+wxk231210@utdallas.edu,wxk231210,Kevin,Wu,Computer Science,Sophomore,In-Person
+ixl231309@utdallas.edu,ixl231309,Isabella,Lopez,Information Technology,Junior,Hybrid
