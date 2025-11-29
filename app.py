@@ -12,7 +12,7 @@ app.secret_key = "change_this_secret_string"
 def login_required(view_func):
     def wrapper(*args, **kwargs):
         if "email" not in session:
-            flash("Please log in first.")
+            flash("Please log in first.", "auth")
             return redirect(url_for("login"))
         return view_func(*args, **kwargs)
     wrapper.__name__ = view_func.__name__
@@ -33,7 +33,7 @@ def register():
         password = request.form.get("password", "").strip()
 
         if not email or not password:
-            flash("Email and password are required.")
+            flash("Email and password are required.", "auth")
             return redirect(url_for("register"))
 
         conn = get_db_connection()
@@ -41,7 +41,7 @@ def register():
 
         cur.execute("SELECT email FROM Students WHERE email = ?", (email,))
         if cur.fetchone():
-            flash("Account already exists.")
+            flash("Account already exists.", "auth")
             conn.close()
             return redirect(url_for("login"))
 
@@ -54,7 +54,7 @@ def register():
         conn.commit()
         conn.close()
 
-        flash("Registration successful. Please log in.")
+        flash("Registration successful. Please log in.", "auth")
         return redirect(url_for("login"))
 
     return render_template("register.html")
@@ -74,15 +74,15 @@ def login():
         conn.close()
 
         if row is None:
-            flash("No account found with that email.")
+            flash("No account found with that email.", "auth")
             return redirect(url_for("login"))
 
         if row["password"] != password:
-            flash("Incorrect password.")
+            flash("Incorrect password.", "auth")
             return redirect(url_for("login"))
 
         session["email"] = email
-        flash("Welcome back!")
+        flash("Welcome back!", "auth")
         return redirect(url_for("index"))
 
     return render_template("login.html")
@@ -92,7 +92,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-    flash("Logged out.")
+    flash("Logged out.", "auth")
     return redirect(url_for("index"))
 
 
@@ -129,7 +129,7 @@ def profile():
         conn.commit()
         conn.close()
 
-        flash("Profile updated.")
+        flash("Profile updated.", "profile")
         return redirect(url_for("profile"))
 
     # GET: fetch data to prefill
@@ -153,9 +153,10 @@ def availability():
         start = request.form.get("start")
         end = request.form.get("end")
 
-        cur.execute("SELECT COUNT(*) AS cnt FROM Availability")
-        cnt = cur.fetchone()["cnt"]
-        availability_id = f"A{cnt+1:03d}"
+        cur.execute("SELECT MAX(SUBSTR(availability_id, 2)) AS max_id FROM Availability")
+        result = cur.fetchone()["max_id"]
+        next_num = (int(result) if result else 0) + 1
+        availability_id = f"A{next_num:03d}"
 
         cur.execute("""
             INSERT INTO Availability
@@ -164,7 +165,7 @@ def availability():
         """, (availability_id, email, day, start, end))
 
         conn.commit()
-        flash("Availability added.")
+        flash("Availability added.", "availability")
 
     cur.execute("""
         SELECT availability_id, day_of_week, start_time, end_time
@@ -190,7 +191,7 @@ def delete_availability(availability_id):
     )
     conn.commit()
     conn.close()
-    flash("Availability removed.")
+    flash("Availability removed.", "availability")
     return redirect(url_for("availability"))
 
 
@@ -209,14 +210,14 @@ def add_courses():
             (email, course_id),
         )
         if cur.fetchone():
-            flash("Already enrolled.")
+            flash("Already enrolled.", "courses")
         else:
             cur.execute(
                 "INSERT INTO Enrollments (email, course_id) VALUES (?, ?)",
                 (email, course_id),
             )
             conn.commit()
-            flash("Course added.")
+            flash("Course added.", "courses")
 
     cur.execute("SELECT * FROM Courses ORDER BY subject, course_number")
     all_courses = cur.fetchall()
@@ -248,7 +249,7 @@ def remove_course(course_id):
     )
     conn.commit()
     conn.close()
-    flash("Course removed.")
+    flash("Course removed.", "courses")
     return redirect(url_for("add_courses"))
 
 
@@ -270,9 +271,10 @@ def create_group():
         location = request.form.get("location")
         max_size = request.form.get("max_size")
 
-        cur.execute("SELECT COUNT(*) AS cnt FROM StudyGroups")
-        cnt = cur.fetchone()["cnt"]
-        group_id = f"G{cnt+1:03d}"
+        cur.execute("SELECT MAX(SUBSTR(group_id, 2)) AS max_id FROM StudyGroups")
+        result = cur.fetchone()["max_id"]
+        next_num = (int(result) if result else 0) + 1
+        group_id = f"G{next_num:03d}"
 
         cur.execute("""
             INSERT INTO StudyGroups
@@ -287,7 +289,7 @@ def create_group():
         )
 
         conn.commit()
-        flash("Study group created.")
+        flash("Study group created.", "groups")
 
     cur.execute("SELECT * FROM Courses ORDER BY subject, course_number")
     courses = cur.fetchall()
@@ -339,7 +341,7 @@ def join_group(group_id):
         (group_id, email),
     )
     if cur.fetchone():
-        flash("Already in group.")
+        flash("Already in group.", "groups")
         conn.close()
         return redirect(url_for("search_groups"))
 
@@ -352,7 +354,7 @@ def join_group(group_id):
 
     row = cur.fetchone()
     if row["member_count"] >= row["max_size"]:
-        flash("Group is full.")
+        flash("Group is full.", "groups")
         conn.close()
         return redirect(url_for("search_groups"))
 
@@ -362,7 +364,7 @@ def join_group(group_id):
     )
     conn.commit()
     conn.close()
-    flash("Joined group.")
+    flash("Joined group.", "groups")
     return redirect(url_for("search_groups"))
 
 
@@ -406,7 +408,7 @@ def leave_group():
     row = cur.fetchone()
 
     if not row:
-        flash("You are not a member of this group.")
+        flash("You are not a member of this group.", "groups")
         conn.close()
         return redirect(url_for("my_groups"))
 
@@ -414,7 +416,7 @@ def leave_group():
 
     # Optional: block leaders from leaving their own group
     if role == "leader":
-        flash("Leaders cannot leave their own group.")
+        flash("Leaders cannot leave their own group.", "groups")
         conn.close()
         return redirect(url_for("my_groups"))
 
@@ -426,7 +428,7 @@ def leave_group():
     conn.commit()
     conn.close()
 
-    flash("You left the group.")
+    flash("You left the group.", "groups")
     return redirect(url_for("my_groups"))
 
 @app.route("/delete_group", methods=["POST"])
@@ -449,7 +451,7 @@ def delete_group():
     is_admin = (email == "admin@studysync.com")
 
     if not row and not is_admin:
-        flash("You are not allowed to delete this group.")
+        flash("You are not allowed to delete this group.", "groups")
         conn.close()
         return redirect(url_for("my_groups"))
 
@@ -461,7 +463,7 @@ def delete_group():
     #     return redirect(url_for("my_groups"))
 
     if not is_admin and role != "leader":
-        flash("Only the group leader or an admin can delete this group.")
+        flash("Only the group leader or an admin can delete this group.", "groups")
         conn.close()
         return redirect(url_for("my_groups"))
     
@@ -473,7 +475,7 @@ def delete_group():
     conn.commit()
     conn.close()
 
-    flash("Group deleted successfully.")
+    flash("Group deleted successfully.", "groups")
     return redirect(url_for("my_groups"))
 
 @app.route("/admin")
@@ -481,7 +483,7 @@ def delete_group():
 def admin():
     # ensure current user is admin
     if session["email"] != "admin@studysync.com":
-        flash("Admins only.")
+        flash("Admins only.", "auth")
         return redirect(url_for("index"))
 
     conn = get_db_connection()

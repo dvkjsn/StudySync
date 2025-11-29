@@ -74,6 +74,15 @@
     }
 
     button:hover { opacity:.85; }
+
+    .flash {
+      background: #e8f5e9;
+      padding: 12px;
+      border: 1px solid #81c784;
+      margin: 20px 0;
+      border-radius: 8px;
+      color: #2e7d32;
+    }
   </style>
 </head>
 
@@ -96,6 +105,16 @@
 <main>
   <section class="card">
     <h2>Your Profile</h2>
+
+    {% with messages = get_flashed_messages(category_filter=["profile"]) %}
+      {% if messages %}
+        <div class="flash">
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
     {% if student %}
     <form action="/profile" method="POST">

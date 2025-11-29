@@ -12,6 +12,7 @@
     label { display:block; margin-top:14px; font-weight:600; }
     input { width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-top:6px; }
     button { width:100%; margin-top:20px; padding:12px; background:#3b4cca; color:white; border:none; border-radius:10px; font-weight:600; cursor:pointer; }
+    .flash { background:#e8f5e9; padding:12px; border:1px solid #81c784; margin:20px 0; border-radius:8px; color:#2e7d32; }
     a { color:#3b4cca; }
   </style>
 </head>
@@ -19,6 +20,16 @@
 <body>
 
 <main>
+
+  {% with messages = get_flashed_messages(category_filter=["auth"]) %}
+    {% if messages %}
+      <div class="flash">
+        {% for msg in messages %}
+          <p>{{ msg }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
   <div class="card">
     <h2>Create Account</h2>

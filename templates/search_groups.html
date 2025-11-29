@@ -15,6 +15,7 @@
     table { width:100%; border-collapse:collapse; margin-top:20px; }
     th, td { padding:10px; border-bottom:1px solid #ddd; }
     button { padding:10px 16px; background:#3b4cca; border:none; color:white; border-radius:8px; cursor:pointer; }
+    .flash { background:#e8f5e9; padding:12px; border:1px solid #81c784; margin:20px 0; border-radius:8px; color:#2e7d32; }
   </style>
 </head>
 
@@ -35,6 +36,16 @@
 </header>
 
 <main>
+
+  {% with messages = get_flashed_messages(category_filter=["groups"]) %}
+    {% if messages %}
+      <div class="flash">
+        {% for msg in messages %}
+          <p>{{ msg }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
   <section class="card">
 

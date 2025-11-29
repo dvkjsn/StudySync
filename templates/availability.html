@@ -18,6 +18,7 @@
     th, td { padding:10px; border-bottom:1px solid #ddd; }
     button { margin-top:20px; padding:12px; background:#3b4cca; color:white; border:none; border-radius:10px; cursor:pointer; }
     button:hover { opacity:.85; }
+    .flash { background:#e8f5e9; padding:12px; border:1px solid #81c784; margin:20px 0; border-radius:8px; color:#2e7d32; }
   </style>
 </head>
 
@@ -39,7 +40,7 @@
 
 <main>
 
-  {% with messages = get_flashed_messages() %}
+  {% with messages = get_flashed_messages(category_filter=["availability"]) %}
     {% if messages %}
       <div class="flash">
         {% for m in messages %}
