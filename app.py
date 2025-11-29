@@ -375,7 +375,7 @@ def my_groups():
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT g.group_name, c.subject, c.course_number,
+        SELECT g.group_id,g.group_name, c.subject, c.course_number,
                g.meeting_day, g.start_time, g.end_time,
                gm.role
         FROM GroupMembers gm
@@ -455,11 +455,16 @@ def delete_group():
 
     role = row["role"] if row else None
 
-    if role != "leader" and not is_admin:
+    # if role != "leader" and not is_admin:
+    #     flash("Only the group leader or an admin can delete this group.")
+    #     conn.close()
+    #     return redirect(url_for("my_groups"))
+
+    if not is_admin and role != "leader":
         flash("Only the group leader or an admin can delete this group.")
         conn.close()
         return redirect(url_for("my_groups"))
-
+    
     # Delete all members
     cur.execute("DELETE FROM GroupMembers WHERE group_id = ?", (group_id,))
 
