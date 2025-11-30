@@ -83,13 +83,20 @@
       border-radius: 8px;
       color: #2e7d32;
     }
+    .video-banner { width: 100%; margin: 0; height: 125px; overflow: hidden;}
+    .banner-video { width: 100%; height: 100%; object-fit: cover;}
   </style>
 </head>
 
 <body>
 
+<div class="video-banner">
+    <video autoplay muted playsinline class="banner-video">
+        <source src="{{ url_for('static', filename='videos/StudySyncVidLogo.mp4') }}" type="video/mp4">
+    </video>
+</div>
+
 <header>
-  <h1>StudySync</h1>
   <nav>
     <a href="/">Home</a>
     <a href="/profile">Profile</a
