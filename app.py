@@ -518,5 +518,51 @@ def admin():
                            groups=groups,
                            members=members)
 
+# ---------- EXPLORE USERS ----------
+@app.route("/explore_users")
+@login_required
+def explore_users():
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Get all students
+    cur.execute("SELECT * FROM Students ORDER BY first_name, last_name")
+    students = cur.fetchall()
+
+    # For each student, get their availabilities and courses
+    users = []
+    for student in students:
+        email = student["email"]
+        # Get availabilities
+        cur.execute("""
+            SELECT day_of_week, start_time, end_time
+            FROM Availability
+            WHERE email = ?
+            ORDER BY day_of_week, start_time
+        """, (email,))
+        availabilities = cur.fetchall()
+        # Get courses
+        cur.execute("""
+            SELECT c.course_id, c.subject, c.course_number, c.title
+            FROM Enrollments e
+            JOIN Courses c ON e.course_id = c.course_id
+            WHERE e.email = ?
+            ORDER BY c.subject, c.course_number
+        """, (email,))
+        courses = cur.fetchall()
+        user = {
+            "email": student["email"],
+            "first_name": student["first_name"],
+            "last_name": student["last_name"],
+            "major": student["major"],
+            "class_year": student["class_year"],
+            "preferred_mode": student["preferred_mode"],
+            "availabilities": availabilities,
+            "courses": courses
+        }
+        users.append(user)
+    conn.close()
+    return render_template("explore_users.html", users=users)
+
 if __name__ == "__main__":
     app.run(debug=True)
