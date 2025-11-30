@@ -391,6 +391,7 @@ def my_groups():
 
     return render_template("my_groups.html", groups=groups)
 
+
 @app.route("/leave_group", methods=["POST"])
 @login_required
 def leave_group():
@@ -431,6 +432,7 @@ def leave_group():
     flash("You left the group.", "groups")
     return redirect(url_for("my_groups"))
 
+
 @app.route("/delete_group", methods=["POST"])
 @login_required
 def delete_group():
@@ -457,16 +459,11 @@ def delete_group():
 
     role = row["role"] if row else None
 
-    # if role != "leader" and not is_admin:
-    #     flash("Only the group leader or an admin can delete this group.")
-    #     conn.close()
-    #     return redirect(url_for("my_groups"))
-
     if not is_admin and role != "leader":
         flash("Only the group leader or an admin can delete this group.", "groups")
         conn.close()
         return redirect(url_for("my_groups"))
-    
+
     # Delete all members
     cur.execute("DELETE FROM GroupMembers WHERE group_id = ?", (group_id,))
 
@@ -478,12 +475,14 @@ def delete_group():
     flash("Group deleted successfully.", "groups")
     return redirect(url_for("my_groups"))
 
+
+# ---------- ADMIN ----------
 @app.route("/admin")
 @login_required
 def admin():
     # ensure current user is admin
     if session["email"] != "admin@studysync.com":
-        flash("Admins only.", "auth")
+        flash("Only admin has access.", "auth")
         return redirect(url_for("index"))
 
     conn = get_db_connection()
@@ -512,11 +511,46 @@ def admin():
 
     conn.close()
 
-    return render_template("admin.html",
-                           students=students,
-                           courses=courses,
-                           groups=groups,
-                           members=members)
+    # simple stats for fun (optional in template)
+    stats = {
+        "num_students": len(students),
+        "num_courses": len(courses),
+        "num_groups": len(groups),
+        "num_memberships": len(members),
+    }
+
+    return render_template(
+        "admin.html",
+        students=students,
+        courses=courses,
+        groups=groups,
+        members=members,
+        stats=stats,
+    )
+
+
+@app.route("/admin/delete_group", methods=["POST"])
+@login_required
+def admin_delete_group():
+    # admin-only special action
+    if session["email"] != "admin@studysync.com":
+        flash("Only admin can perform this action.", "auth")
+        return redirect(url_for("index"))
+
+    group_id = request.form.get("group_id")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Delete all members then the group
+    cur.execute("DELETE FROM GroupMembers WHERE group_id = ?", (group_id,))
+    cur.execute("DELETE FROM StudyGroups WHERE group_id = ?", (group_id,))
+    conn.commit()
+    conn.close()
+
+    flash("Group deleted by admin.", "groups")
+    return redirect(url_for("admin"))
+
 
 # ---------- EXPLORE USERS ----------
 @app.route("/explore_users")

@@ -10,8 +10,10 @@
     header { background:#3b4cca; color:white; padding:18px 20px; }
     nav a { color:white; margin-right:18px; text-decoration:none; }
     main { max-width:1000px; margin:30px auto; padding:0 18px; }
-    .card { background:white; padding:22px; margin-bottom:30px;
-            border-radius:14px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+    .card {
+      background:white; padding:22px; margin-bottom:30px;
+      border-radius:14px; box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
 
     table { width:100%; border-collapse:collapse; margin-top:20px; }
     th, td { padding:10px; border-bottom:1px solid #ddd; }
@@ -27,6 +29,20 @@
       font-weight:500;
     }
     button:hover { opacity:0.85; }
+
+    .stats-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      margin-top:10px;
+    }
+    .stat-pill {
+      background:#eef0f7;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:500;
+    }
   </style>
 </head>
 
@@ -47,6 +63,21 @@
 </header>
 
 <main>
+
+  <!-- Admin overview (special info only admin sees) -->
+  <section class="card">
+    <h2>Dashboard Overview</h2>
+    <div class="stats-row">
+      <div class="stat-pill">👩‍🎓 Students: {{ stats.num_students }}</div>
+      <div class="stat-pill">📚 Courses: {{ stats.num_courses }}</div>
+      <div class="stat-pill">👥 Study Groups: {{ stats.num_groups }}</div>
+      <div class="stat-pill">🧩 Group Memberships: {{ stats.num_memberships }}</div>
+    </div>
+    <p style="margin-top:16px; font-size:14px;">
+      You are logged in as the <strong>administrator</strong>. From here you can review all data
+      and remove any study group if needed.
+    </p>
+  </section>
 
   <!-- Students -->
   <section class="card">
@@ -110,7 +141,7 @@
         <th>Time</th>
         <th>Mode</th>
         <th>Size</th>
-        <th>Action</th>
+        <th>Action (Admin)</th>
       </tr>
 
       {% for g in groups %}
@@ -123,8 +154,9 @@
         <td>{{ g.member_count }}/{{ g.max_size }}</td>
 
         <td>
-          <form action="/delete_group" method="POST"
-                onsubmit="return confirm('Delete this group permanently?');">
+          <!-- IMPORTANT: admin-only delete route -->
+          <form action="/admin/delete_group" method="POST"
+                onsubmit="return confirm('Delete this group permanently (admin)?');">
             <input type="hidden" name="group_id" value="{{ g.group_id }}">
             <button type="submit">Delete</button>
           </form>
