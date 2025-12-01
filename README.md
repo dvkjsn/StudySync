@@ -1,4 +1,5 @@
 **Study Sync**
+
 StudySync is a web application that helps UTD students find and create study groups for their courses. Students can set their availability, enroll in courses, search for existing study groups, and create new groups with specific meeting times and locations. The platform includes features for managing group memberships, viewing user profiles, and an admin dashboard for system oversight.
 
 setup:
