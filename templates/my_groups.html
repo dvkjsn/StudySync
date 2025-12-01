@@ -70,6 +70,7 @@
   <section class="card">
     <h2>Your Study Groups</h2>
 
+    {% if groups %}
     <table>
       <tr>
         <th>Group</th>
@@ -107,6 +108,11 @@
       </tr>
       {% endfor %}
     </table>
+    {% else %}
+    <p style="margin-top:20px; color:#6b7280; font-style:italic; padding:20px; background:#f9fafb; border-radius:8px;">
+      You're not in any study groups yet. <a href="/search_groups" style="color:#3b4cca;">Find groups</a> or <a href="/create_group" style="color:#3b4cca;">create your own</a>.
+    </p>
+    {% endif %}
 
   </section>
 
