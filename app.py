@@ -153,19 +153,23 @@ def availability():
         start = request.form.get("start")
         end = request.form.get("end")
 
-        cur.execute("SELECT MAX(SUBSTR(availability_id, 2)) AS max_id FROM Availability")
-        result = cur.fetchone()["max_id"]
-        next_num = (int(result) if result else 0) + 1
-        availability_id = f"A{next_num:03d}"
+        # Validate that end time is after start time
+        if start and end and end <= start:
+            flash("End time must be after start time.", "availability")
+        else:
+            cur.execute("SELECT MAX(SUBSTR(availability_id, 2)) AS max_id FROM Availability")
+            result = cur.fetchone()["max_id"]
+            next_num = (int(result) if result else 0) + 1
+            availability_id = f"A{next_num:03d}"
 
-        cur.execute("""
-            INSERT INTO Availability
-              (availability_id, email, day_of_week, start_time, end_time)
-            VALUES (?, ?, ?, ?, ?)
-        """, (availability_id, email, day, start, end))
+            cur.execute("""
+                INSERT INTO Availability
+                  (availability_id, email, day_of_week, start_time, end_time)
+                VALUES (?, ?, ?, ?, ?)
+            """, (availability_id, email, day, start, end))
 
-        conn.commit()
-        flash("Availability added.", "availability")
+            conn.commit()
+            flash("Availability added.", "availability")
 
     cur.execute("""
         SELECT availability_id, day_of_week, start_time, end_time
@@ -262,34 +266,62 @@ def create_group():
     cur = conn.cursor()
 
     if request.method == "POST":
-        course_id = request.form.get("course_id")
-        group_name = request.form.get("group_name")
+        course_id = request.form.get("course_id", "").strip()
+        group_name = request.form.get("group_name", "").strip()
         day = request.form.get("day")
         start = request.form.get("start")
         end = request.form.get("end")
         mode = request.form.get("mode")
-        location = request.form.get("location")
+        location = request.form.get("location", "").strip()
         max_size = request.form.get("max_size")
 
-        cur.execute("SELECT MAX(SUBSTR(group_id, 2)) AS max_id FROM StudyGroups")
-        result = cur.fetchone()["max_id"]
-        next_num = (int(result) if result else 0) + 1
-        group_id = f"G{next_num:03d}"
+        # Validate required fields
+        if not course_id:
+            flash("Course is required.", "groups")
+        elif not group_name:
+            flash("Group name is required.", "groups")
+        elif not start:
+            flash("Start time is required.", "groups")
+        elif not end:
+            flash("End time is required.", "groups")
+        elif not max_size:
+            flash("Max size is required.", "groups")
+        else:
+            # Validate max_size is a valid positive integer
+            try:
+                max_size_int = int(max_size)
+                if max_size_int < 1:
+                    flash("Max size must be at least 1.", "groups")
+                elif max_size_int > 50:
+                    flash("Max size cannot exceed 50.", "groups")
+                # Validate that end time is after start time
+                elif start and end and end <= start:
+                    flash("End time must be after start time.", "groups")
+                # Validate location is required for In-Person meetings
+                elif mode == "In-Person" and not location:
+                    flash("Location is required for In-Person meetings.", "groups")
+                else:
+                    cur.execute("SELECT MAX(SUBSTR(group_id, 2)) AS max_id FROM StudyGroups")
+                    result = cur.fetchone()["max_id"]
+                    next_num = (int(result) if result else 0) + 1
+                    group_id = f"G{next_num:03d}"
 
-        cur.execute("""
-            INSERT INTO StudyGroups
-              (group_id, course_id, group_name, meeting_day, start_time, end_time,
-               meeting_mode, max_size, location)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (group_id, course_id, group_name, day, start, end, mode, max_size, location))
+                    cur.execute("""
+                        INSERT INTO StudyGroups
+                          (group_id, course_id, group_name, meeting_day, start_time, end_time,
+                           meeting_mode, max_size, location)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (group_id, course_id, group_name, day, start, end, mode, max_size_int, location))
 
-        cur.execute(
-            "INSERT INTO GroupMembers (group_id, email, role) VALUES (?, ?, 'leader')",
-            (group_id, email),
-        )
+                    cur.execute(
+                        "INSERT INTO GroupMembers (group_id, email, role) VALUES (?, ?, 'leader')",
+                        (group_id, email),
+                    )
 
-        conn.commit()
-        flash("Study group created.", "groups")
+                    conn.commit()
+                    flash("Study group created.", "groups")
+            except ValueError:
+                flash("Max size must be a valid number.", "groups")
 
     cur.execute("SELECT * FROM Courses ORDER BY subject, course_number")
     courses = cur.fetchall()
